@@ -282,6 +282,11 @@ public class PendingStateImpl implements PendingState {
     @Override
     public synchronized void processBest(Block newBlock, List<TransactionReceipt> receipts) {
 
+        // skip processing if new best block has been imported
+        if (!newBlock.equals(blockchain.getBestBlock())) {
+            return;
+        }
+
         if (getBestBlock() != null && !getBestBlock().isParentOf(newBlock)) {
             // need to switch the state to another fork
 
